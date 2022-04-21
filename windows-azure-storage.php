@@ -3,7 +3,7 @@
  * Plugin Name:       Microsoft Azure Storage for WordPress
  * Plugin URI:        https://wordpress.org/plugins/windows-azure-storage/
  * Description:       Use the Microsoft Azure Storage service to host your website's media files.
- * Version:           4.3.2
+ * Version:           100
  * Requires at least: 4.0
  * Requires PHP:      5.6
  * Author:            10up, Microsoft Open Technologies
@@ -13,6 +13,8 @@
  * Text Domain:       windows-azure-storage
  * Domain Path:       /languages
  */
+
+# TODO - revert version number back to 4.3.2 when submitting PR
 
 /*
  * Copyright (c) 2009-2016, Microsoft Open Technologies, Inc.
@@ -62,8 +64,7 @@
 define( 'MSFT_AZURE_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'MSFT_AZURE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'MSFT_AZURE_PLUGIN_LEGACY_MEDIA_URL', get_admin_url( get_current_blog_id(), 'media-upload.php' ) );
-//define( 'MSFT_AZURE_PLUGIN_VERSION', '4.3.2' );
-define( 'MSFT_AZURE_PLUGIN_VERSION', '100' ); // TODO: remove before submitting pull request
+define( 'MSFT_AZURE_PLUGIN_VERSION', '4.3.2' );
 
 require_once MSFT_AZURE_PLUGIN_PATH . 'windows-azure-storage-settings.php';
 require_once MSFT_AZURE_PLUGIN_PATH . 'windows-azure-storage-dialog.php';
