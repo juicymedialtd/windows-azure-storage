@@ -203,6 +203,26 @@ class Windows_Azure_Helper {
 		return update_option( 'default_azure_storage_account_container_name', $container );
 	}
 
+    /**
+	 * Whether to exclude the container in a CNAME URL.
+     * Always returns false if CNAME isn't set.
+	 *
+	 * @since 4.x.x
+	 *
+	 * @return bool True if exclude, false to include.
+	 */
+	static public function exclude_container_from_url() {
+        if (empty(self::get_cname())) {
+            return false;
+        }
+
+		$exclude_container = defined( 'MICROSOFT_AZURE_EXCLUDE_CONTAINER_FROM_URL' )
+			? MICROSOFT_AZURE_EXCLUDE_CONTAINER_FROM_URL
+			: get_option( 'azure_storage_exclude_container_from_url', false );
+
+        return filter_var( $exclude_container, FILTER_VALIDATE_BOOLEAN );
+    }
+
 	/**
 	 * Whether to delete local file after uploading it to Azure Storage or not.
 	 *

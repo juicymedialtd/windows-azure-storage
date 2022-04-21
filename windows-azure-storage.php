@@ -62,7 +62,8 @@
 define( 'MSFT_AZURE_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'MSFT_AZURE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'MSFT_AZURE_PLUGIN_LEGACY_MEDIA_URL', get_admin_url( get_current_blog_id(), 'media-upload.php' ) );
-define( 'MSFT_AZURE_PLUGIN_VERSION', '4.3.2' );
+//define( 'MSFT_AZURE_PLUGIN_VERSION', '4.3.2' );
+define( 'MSFT_AZURE_PLUGIN_VERSION', '100' ); // TODO: remove before submitting pull request
 
 require_once MSFT_AZURE_PLUGIN_PATH . 'windows-azure-storage-settings.php';
 require_once MSFT_AZURE_PLUGIN_PATH . 'windows-azure-storage-dialog.php';
@@ -815,7 +816,7 @@ function windows_azure_storage_wp_calculate_image_srcset( $sources, $size_array,
 	$esc_url_protocols = ! empty( $azure_cname ) ? array( 'https', 'http', '//' ) : null;
 
 	if ( ! empty( $media_info ) ) {
-		$base_url = trailingslashit( WindowsAzureStorageUtil::get_storage_url_base( false ) . $media_info['container'] );
+		$base_url = trailingslashit( WindowsAzureStorageUtil::get_storage_url_base( false ) . (Windows_Azure_Helper::exclude_container_from_url() ? '' : $media_info['container']) );
 
 		foreach ( $sources as &$source ) {
 			$img_filename = substr( $source['url'], strrpos( $source['url'], '/' ) + 1 );

@@ -316,6 +316,10 @@ class WindowsAzureStorageUtil {
 		$azure_storage_account_name                   = \Windows_Azure_Helper::get_account_name();
 		$default_azure_storage_account_container_name = \Windows_Azure_Helper::get_default_container();
 
+        if (\Windows_Azure_Helper::exclude_container_from_url()) {
+            $append_container = false;
+        }
+
 		/**
 		 * Filter the blob URL protocol to force a specific one.
 		 *

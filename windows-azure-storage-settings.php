@@ -117,6 +117,10 @@ function windows_azure_storage_plugin_register_settings() {
 		register_setting( 'windows-azure-storage-settings-group', 'cname', 'esc_url_raw' );
 	}
 
+    if ( ! defined( 'MICROSOFT_AZURE_EXCLUDE_CONTAINER_FROM_URL' ) ) {
+		register_setting( 'windows-azure-storage-settings-group', 'azure_storage_exclude_container_from_url', 'wp_validate_boolean' );
+	}
+
 	if ( ! defined( 'MICROSOFT_AZURE_USE_FOR_DEFAULT_UPLOAD' ) ) {
 		register_setting( 'windows-azure-storage-settings-group', 'azure_storage_use_for_default_upload', 'wp_validate_boolean' );
 	}
@@ -171,6 +175,16 @@ function windows_azure_storage_plugin_register_settings() {
 		'azure_storage_cname',
 		__( 'CNAME', 'windows-azure-storage' ),
 		'windows_azure_storage_setting_cname',
+		'windows-azure-storage-plugin-options',
+		'windows-azure-storage-settings'
+	);
+    /**
+	 * @since 4.x.x
+	 */
+	add_settings_field(
+		'azure_storage_exclude_container_from_url',
+		__( 'Exclude container in CNAME URL', 'windows-azure-storage' ),
+		'windows_azure_storage_setting_exclude_container_from_url',
 		'windows-azure-storage-plugin-options',
 		'windows-azure-storage-settings'
 	);
@@ -349,6 +363,31 @@ function windows_azure_storage_setting_cname() {
 
 	echo '<p>';
 		_e( 'Use this option if you would like to display image URLs belonging to your domain like <code>http://mydomain.com/</code> instead of <code>http://your-account-name.blob.core.windows.net/</code>. This CNAME must start with <code>http(s)://</code> and the administrator will have to update <abbr title="Domain Name System">DNS</abbr> entries accordingly. You can use <code>MICROSOFT_AZURE_CNAME</code> constant to override it.', 'windows-azure-storage' );
+	echo '</p>';
+}
+
+/**
+ * CNAME setting callback function.
+ *
+ * @since 4.x.x
+ *
+ * @return void
+ */
+function windows_azure_storage_setting_exclude_container_from_url() {
+	$exclude_container = Windows_Azure_Helper::exclude_container_from_url();
+
+	if ( defined( 'MICROSOFT_AZURE_EXCLUDE_CONTAINER_FROM_URL' ) ) {
+		echo '<input type="checkbox" id="azure_storage_exclude_container_from_url"', checked( $exclude_container, true, false ), ' readonly disabled>';
+	} else {
+		echo '<input type="checkbox" name="azure_storage_exclude_container_from_url" value="1" id="azure_storage_exclude_container_from_url"', checked( $exclude_container, true, false ), '>';
+	}
+
+	echo '<label for="azure_storage_exclude_container_from_url">';
+		esc_html_e( 'Exclude the storage container name in the url when using a CNAME', 'windows-azure-storage' );
+	echo '</label>';
+
+	echo '<p>';
+		_e( 'Check this if your CNAME points directly to a specific container. This setting only applies when a CNAME is set. This setting can be overriden using the <code>MICROSOFT_AZURE_EXCLUDE_CONTAINER_FROM_URL</code> PHP constant.', 'windows-azure-storage' );
 	echo '</p>';
 }
 
